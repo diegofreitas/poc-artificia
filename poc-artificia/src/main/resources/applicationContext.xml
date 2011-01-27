@@ -37,6 +37,20 @@
 			</props>
 		</property>
 	</bean>
+	
+	<bean id="dataSourceInitializer" class="org.springframework.jdbc.datasource.init.DataSourceInitializer">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="enabled" value="${batch.data.source.init}"/>
+        <property name="databasePopulator">
+            <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+                <property name="scripts">
+                    <list>
+                        <value>${batch.schema.script}</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
 </beans>
 

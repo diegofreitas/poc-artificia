@@ -1,0 +1,10 @@
+package br.com.artificia.application;
+
+import br.com.artificia.domain.model.pedido.Pedido;
+
+public interface IPedidoService {
+
+	long iniciarPedido(long idConsultora);
+
+	Pedido carregarPedido(long object);
+}

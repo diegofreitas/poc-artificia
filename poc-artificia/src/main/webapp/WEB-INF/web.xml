@@ -35,4 +35,23 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>A Protected Page</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>user</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>novandiRealm</realm-name>
+	</login-config>
+	<security-role>
+    	<description/>
+    	<role-name>user</role-name>
+	</security-role>
 </web-app>
