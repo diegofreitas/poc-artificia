@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -33,8 +34,8 @@ public class Pedido {
 	}
 	
 	@Id
-	@GeneratedValue
-	private long id;
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	private Long id;
 	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
 	private Collection<Item> itens;
 	private BigDecimal total;
@@ -61,7 +62,7 @@ public class Pedido {
 		return this.pontuacao;
 	}
 	
-	public long id() {
+	public Long id() {
 		return id;
 	}
 
@@ -139,6 +140,13 @@ public class Pedido {
 			}
 		});
 		this.pedidoRepository.save(this);
+	}
+
+	public Object getMemento() {
+		PedidoMemento memento = new PedidoMemento();
+		memento.setPontuacao(this.pontuacao.intValue());
+		memento.setTotal(this.total.doubleValue());
+		return memento;
 	}
 
 }
