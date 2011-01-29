@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="1.0" xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+	<entity class="br.com.artificia.domain.model.estoque.Produto"></entity>
+	<entity class="br.com.artificia.domain.model.consultora.Consultora"></entity>
+	<entity class="br.com.artificia.domain.model.pedido.Pedido"></entity>
+	<entity class="br.com.artificia.domain.model.pedido.Item"></entity>
+</entity-mappings>
