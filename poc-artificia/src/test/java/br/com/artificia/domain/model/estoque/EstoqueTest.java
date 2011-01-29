@@ -10,7 +10,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 public class EstoqueTest {
 
 	@Test
-	public void testIsEstoqueDisponivelSemReserva() {
+	public void deveEstarDisponivelQuandoSemReservaComQuantidade() {
 		Estoque estoque = new Estoque(100,0);
 		assertTrue(estoque.isEstoqueDisponivel(BigInteger.TEN));
 	}

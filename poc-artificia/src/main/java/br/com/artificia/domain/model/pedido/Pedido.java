@@ -13,11 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,10 +42,6 @@ public class Pedido {
 	
 	@ManyToOne
 	private Consultora consultora;
-	
-	@Autowired
-	@Transient
-	private IPedidoRepository pedidoRepository;
 
 	Pedido(){ }
 	
@@ -71,7 +65,6 @@ public class Pedido {
 		Item novoItem = new Item(produto, quantidade);
 		this.aumentarPontuacaoEm(novoItem.pontuacao());
 		this.adicionarItem(novoItem);
-		pedidoRepository.save(this);
 	}
 
 	private void aumentarPontuacaoEm(BigInteger pontos) {
@@ -139,13 +132,15 @@ public class Pedido {
 				item.produto().reduzirEstoqueEm(item.quantidade());
 			}
 		});
-		this.pedidoRepository.save(this);
 	}
 
 	public Object getMemento() {
-		PedidoMemento memento = new PedidoMemento();
-		memento.setPontuacao(this.pontuacao.intValue());
-		memento.setTotal(this.total.doubleValue());
+		PedidoMemento memento = new PedidoMemento(
+				this.id,
+				this.total.doubleValue(), 
+				this.pontuacao.intValue()
+		);
+
 		return memento;
 	}
 

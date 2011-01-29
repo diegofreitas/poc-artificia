@@ -1,5 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<dataset>  
-    <consultora ID='1' NOME="MARILENE" PONTUACAOMAXIMA="1000"/>
-    <pedido ID="1000" CONSULTORA_ID="1" pontuacao="0" total ="0.0"/>
-</dataset>
