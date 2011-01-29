@@ -8,4 +8,6 @@ public interface IProdutoRepository {
 	Collection<Produto> list();*/
 
 	Produto findById(long produtoId);
+
+	void update(Produto produto);
 }

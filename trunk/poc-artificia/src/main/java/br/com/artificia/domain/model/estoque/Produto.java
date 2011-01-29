@@ -30,10 +30,7 @@ public class Produto {
 	private Estoque estoque;
 
 	private BigInteger pontos;
-	
-	@Autowired
-	@Transient
-	private IProdutoRepository produtoRepository;
+
 	
 	Produto(){}
 

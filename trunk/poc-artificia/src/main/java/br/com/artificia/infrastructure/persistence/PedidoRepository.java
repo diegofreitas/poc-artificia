@@ -24,6 +24,10 @@ public class PedidoRepository implements IPedidoRepository {
 	public Pedido findById(long idPedido) {
 		return em.find(Pedido.class, idPedido);
 	}
+
+	public void update(Pedido pedido) {
+		em.merge(pedido);
+	}
 	
 	
 

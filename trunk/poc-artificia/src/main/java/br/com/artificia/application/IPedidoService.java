@@ -7,4 +7,6 @@ public interface IPedidoService {
 	long iniciarPedido(long idConsultora);
 
 	Pedido carregarPedido(long object);
+
+	void adicionarProduto(long pedido, int codigoProduto, int quantidade);
 }

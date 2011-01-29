@@ -29,6 +29,10 @@ public class ProdutoRepository implements IProdutoRepository {
 	public Produto findById(long produtoId) {
 		return em.find(Produto.class, produtoId);
 	}
+
+	public void update(Produto produto) {
+		em.merge(produto);
+	}
 	
 	
 

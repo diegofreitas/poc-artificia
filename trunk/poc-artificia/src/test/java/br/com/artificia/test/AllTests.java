@@ -7,16 +7,17 @@ import org.junit.runners.Suite.SuiteClasses;
 import br.com.artificia.domain.model.estoque.EstoqueTest;
 import br.com.artificia.domain.model.pedido.ItemTest;
 import br.com.artificia.domain.model.pedido.PedidoTest;
-import br.com.artificia.domain.service.PedidoDomainServiceTest;
+import br.com.artificia.infrastructure.persistence.ConsultoraRepositoryTest;
 
 
 @RunWith(Suite.class)
 @SuiteClasses({
+	ConsultoraRepositoryTest.class,
 	PedidoTest.class,
 	EstoqueTest.class,
 	ItemTest.class,
-	PedidoDomainServiceTest.class,
 	EstoqueTest.class
+	
 })
 public class AllTests {
 }
