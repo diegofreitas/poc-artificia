@@ -3,8 +3,7 @@ package br.com.artificia.domain.model.pedido;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.util.ReflectionTestUtils.getField;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+
 import java.util.Collection;
 
 import javax.annotation.Resource;
@@ -82,13 +81,13 @@ public class PedidoTest {
 		Pedido pedido = pedidoRepository.findById(PEDIDO_SIMPLES);
 		Produto produto = produtoRepository.findById(PRODUTO_CREME_ID);
 		
-		pedido.adiciconarProdutos(produto, BigInteger.ONE);
+		pedido.adiciconarProdutos(produto, 1);
 		
 		Collection<Item> itens = (Collection<Item>) getField(pedido, "itens");
 
 		assertEquals(1, itens.size());
-		assertEquals(BigDecimal.valueOf(10.0), pedido.total());
-		assertEquals(BigInteger.valueOf(10), pedido.pontuacao());
+		assertEquals(Double.valueOf(10.0), Double.valueOf(pedido.total()));
+		assertEquals( 10, pedido.pontuacao());
 	}
 	
 	@Test
@@ -101,12 +100,12 @@ public class PedidoTest {
 				.preco(10.0)
 				.pontos(10).build();
 		
-		pedido.adiciconarProdutos(produto, BigInteger.ONE);
+		pedido.adiciconarProdutos(produto, 1);
 		
 		Estoque estoque = (Estoque) getField(produto, "estoque");
-		BigInteger qtdReservado = (BigInteger)  getField(estoque,"reservado");
-		assertEquals(BigInteger.valueOf(99),estoque.disponivel());
-		assertEquals(BigInteger.valueOf(1),qtdReservado);
+		int qtdReservado =  (Integer) getField(estoque,"reservado");
+		assertEquals(99,estoque.disponivel());
+		assertEquals(1,qtdReservado);
 		
 	}
 	
@@ -120,7 +119,7 @@ public class PedidoTest {
 				.preco(10.0)
 				.pontos(10).build();
 		
-		pedido.adiciconarProdutos(produto, BigInteger.ONE);
+		pedido.adiciconarProdutos(produto, 1);
 	}
 
 	@Test(expected = PontuacaoMaximaExcedidaException.class)
@@ -130,7 +129,7 @@ public class PedidoTest {
 		
 		Produto produto = new Produto.Builder().estoque(new Estoque(100,0)).preco(10.0)
 				.pontos(10).build();
-		pedido.adiciconarProdutos(produto, BigInteger.valueOf(20));
+		pedido.adiciconarProdutos(produto, 20);
 	}
 	
 	@Test
@@ -139,14 +138,14 @@ public class PedidoTest {
 		Produto produto = produtoRepository.findById(PRODUTO_CREME_ID);
 		Produto produtoSpy = Mockito.spy(produto);
 		
-		pedido.adiciconarProdutos(produtoSpy, BigInteger.ONE);
+		pedido.adiciconarProdutos(produtoSpy, 1);
 		
 		assertEquals(SituacaoPedido.INICIADO, getField(pedido, "situacao"));
 		
 		pedido.finalizar();
 
 		assertEquals(SituacaoPedido.FINALIZADO, getField(pedido, "situacao"));
-		Mockito.verify(produtoSpy).reduzirEstoqueEm(BigInteger.ONE);
+		Mockito.verify(produtoSpy).reduzirEstoqueEm(1);
 	}
 
 }

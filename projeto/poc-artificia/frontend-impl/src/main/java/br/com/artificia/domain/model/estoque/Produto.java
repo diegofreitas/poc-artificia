@@ -1,16 +1,11 @@
 package br.com.artificia.domain.model.estoque;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import br.com.artificia.infrastructure.IBuilder;
@@ -22,14 +17,14 @@ public class Produto {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+	private Long id;
 	
-	private BigDecimal preco;
+	private double preco;
 	
 	@Embedded
 	private Estoque estoque;
 
-	private BigInteger pontos;
+	private int pontos;
 
 	private String descricao;
 
@@ -43,23 +38,23 @@ public class Produto {
 	}
 	
 
-	public BigDecimal preco() {
+	public double preco() {
 		return preco;
 	}
 
 	
 	public static class Builder implements IBuilder<Produto> {
 		
-		private BigDecimal preco = BigDecimal.valueOf(0);
+		private double preco = 0;
 		private Estoque estoque = new Estoque(10000,0);
-		private BigInteger pontos = BigInteger.valueOf(0);
+		private int pontos = 0;
 
 		public Produto build() {
 			return new Produto(this);
 		}
 		
 		public Builder preco(double preco) {
-			this.preco = BigDecimal.valueOf(preco);
+			this.preco =  preco ;
 			return this;
 		}
 
@@ -69,7 +64,7 @@ public class Produto {
 		}
 
 		public Builder pontos(int pontos) {
-			this.pontos = BigInteger.valueOf(pontos);
+			this.pontos =  pontos ;
 			return this;
 		}
 
@@ -77,29 +72,19 @@ public class Produto {
 
 	}
 
-	/*public void reduzirEstoqueEm(BigInteger quantidade) {
-		if(this.estoque.isEstoqueDisponivel(quantidade)){
-			this.estoque = this.estoque.subtract(quantidade);
-		}else{
-			throw new EstoqueIndisponivelException();
-		}
-	}*/
-
-
-	public BigInteger pontos() {
+	public int pontos() {
 		return this.pontos;
 	}
 
-	public void reservarEstoqueEm(BigInteger quantidade) {
+	public void reservarEstoqueEm(int quantidade) {
 		this.estoque.reservarEm(quantidade);
 	}
 
-	public void reduzirEstoqueEm(BigInteger one) {
+	public void reduzirEstoqueEm(int one) {
 		this.estoque.reduzirEm(one);
 	}
 
 	public String descricao() {
-		// TODO Auto-generated method stub
 		return this.descricao;
 	}	
 
