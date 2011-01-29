@@ -1,7 +1,5 @@
 package br.com.artificia.domain.model.pedido;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -36,8 +34,8 @@ public class Pedido {
 	private Long id;
 	@OneToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
 	private Collection<Item> itens;
-	private BigDecimal total;
-	private BigInteger pontuacao;
+	private double total;
+	private int pontuacao;
 	private SituacaoPedido situacao = SituacaoPedido.INICIADO;
 	
 	@ManyToOne
@@ -52,7 +50,7 @@ public class Pedido {
 		this.consultora = builder.consultora;
 	}
 	
-	public BigInteger pontuacao() {
+	public int pontuacao() {
 		return this.pontuacao;
 	}
 	
@@ -60,23 +58,23 @@ public class Pedido {
 		return id;
 	}
 
-	public void adiciconarProdutos(Produto produto, BigInteger quantidade) {
+	public void adiciconarProdutos(Produto produto, int quantidade) {
 		produto.reservarEstoqueEm(quantidade);
 		Item novoItem = new Item(produto, quantidade);
 		this.aumentarPontuacaoEm(novoItem.pontuacao());
 		this.adicionarItem(novoItem);
 	}
 
-	private void aumentarPontuacaoEm(BigInteger pontos) {
+	private void aumentarPontuacaoEm(int pontos) {
 		if(isPontuacaoExcederCom(pontos)){
 			throw new PontuacaoMaximaExcedidaException();
 		}else{
-			this.pontuacao = this.pontuacao.add(pontos);
+			this.pontuacao += pontos;
 		}
 	}
 
-	private boolean isPontuacaoExcederCom(BigInteger pontos) {
-		if(this.pontuacao.add(pontos).intValue() > this.consultora.pontuacaoMaxima().intValue()){
+	private boolean isPontuacaoExcederCom(int pontos) {
+		if(this.pontuacao + pontos > this.consultora.pontuacaoMaxima()){
 			return true;
 		}
 		return false;
@@ -84,18 +82,18 @@ public class Pedido {
 
 	private void adicionarItem(Item novoItem) {
 		itens.add(novoItem);
-		total = total.add(novoItem.total());
+		total += novoItem.total();
 	}
 
-	public BigDecimal total() {
+	public double total() {
 		return total;
 	}
 
 	public static class Builder implements IBuilder<Pedido> {
 
 		private Collection<Item> itens = new HashSet<Item>();
-		private BigDecimal total = BigDecimal.ZERO;
-		private BigInteger pontuacao = BigInteger.ZERO;
+		private double total = 0;
+		private int pontuacao = 0;
 		private Consultora consultora = Consultora.NULL_CONSULTORA;
 
 		public Pedido build() {
@@ -141,8 +139,8 @@ public class Pedido {
 		}
 		PedidoMemento memento = new PedidoMemento(
 				this.id,
-				this.total.doubleValue(), 
-				this.pontuacao.intValue(),
+				this.total, 
+				this.pontuacao,
 				itensMemento,
 				this.situacao
 		);

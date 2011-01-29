@@ -1,6 +1,5 @@
 package br.com.artificia.domain.model.consultora;
 
-import java.math.BigInteger;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +15,7 @@ public class Consultora {
 	@Id
 	@GeneratedValue
 	private long id;
-	private BigInteger pontuacaoMaxima;
+	private int pontuacaoMaxima;
 	private String nome;
 
 	public Consultora(Builder builder) {
@@ -28,7 +27,7 @@ public class Consultora {
 	
 	}
 
-	public BigInteger pontuacaoMaxima() {
+	public int pontuacaoMaxima() {
 		return pontuacaoMaxima;
 	}
 
@@ -38,14 +37,14 @@ public class Consultora {
 	
 	public static class Builder implements IBuilder<Consultora>{
 		
-		private BigInteger pontuacaoMaxima=BigInteger.ZERO;
+		private int pontuacaoMaxima= 0;
 		
 		public Consultora build() {
 			return new Consultora(this);
 		}
 		
 		public Builder pontMaxima(int max){
-			this.pontuacaoMaxima = BigInteger.valueOf(max);
+			this.pontuacaoMaxima =  max;
 			return this;
 		}
 		

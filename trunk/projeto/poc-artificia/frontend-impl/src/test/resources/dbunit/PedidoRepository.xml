@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-    <produto ID='1' preco="10" quantidade="1000" PONTOS="10" reservado="0"/>
+    <produto ID='1' preco="10.0" quantidade="1000" PONTOS="10" reservado="0"/>
     
     
     <consultora ID='1' NOME="MARILENE" PONTUACAOMAXIMA="1000"/>

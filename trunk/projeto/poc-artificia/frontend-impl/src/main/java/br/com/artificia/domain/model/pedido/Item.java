@@ -1,8 +1,5 @@
 package br.com.artificia.domain.model.pedido;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,39 +14,38 @@ class Item {
 	@Id
 	@GeneratedValue
 	private long id;
-	private BigDecimal total;
-	private BigInteger quantidade;
+	private double total;
+	private int quantidade;
 	@ManyToOne(cascade=CascadeType.MERGE)
 	private Produto produto;
 
 	Item() {
 	}
 
-	public Item(Produto produto, BigInteger quantidade) {
+	public Item(Produto produto, int quantidade) {
 		this.produto = produto;
 		this.quantidade = quantidade;
-		total = produto.preco().multiply(
-				BigDecimal.valueOf(quantidade.intValue()));
+		total = produto.preco() * quantidade ;
 	}
 
-	public BigDecimal total() {
+	public double total() {
 		return total;
 	}
 
-	public BigInteger pontuacao() {
-		return this.produto.pontos().multiply(this.quantidade);
+	public int pontuacao() {
+		return this.produto.pontos() * this.quantidade;
 	}
 
 	public Produto produto() {
 		return this.produto;
 	}
 
-	public BigInteger quantidade() {
+	public int quantidade() {
 		return quantidade;
 	}
 	
 	public ItemMemento createMemento(){
-		return new ItemMemento(produto.descricao(),this.quantidade.intValue(),this.pontuacao().intValue(),this.total.doubleValue());
+		return new ItemMemento(produto.descricao(),this.quantidade,this.pontuacao(),this.total);
 	}
 
 }

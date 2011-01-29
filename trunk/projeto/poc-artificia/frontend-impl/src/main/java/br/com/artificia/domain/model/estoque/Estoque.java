@@ -7,38 +7,38 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Estoque {
 
-	private BigInteger quantidade = BigInteger.ZERO;
+	private int quantidade = 0;
 	
-	private BigInteger reservado = BigInteger.ZERO;
+	private int reservado = 0;
 	
 	
 	
 	public Estoque(int quantidade, int reservado) {
-		this.quantidade = BigInteger.valueOf(quantidade);
-		this.reservado = BigInteger.valueOf(reservado);
+		this.quantidade = quantidade;
+		this.reservado = reservado;
 	}
 
 	Estoque() {}
 
-	public boolean isEstoqueDisponivel(BigInteger requerida) {
-		return requerida.intValue() <= disponivel().intValue();
+	public boolean isEstoqueDisponivel(int requerida) {
+		return requerida <= disponivel();
 	}
 
-	public void reservarEm(BigInteger aReservar) {
+	public void reservarEm(int aReservar) {
 		if(isEstoqueDisponivel(aReservar)){
-			this.reservado = this.reservado.add(aReservar);
+			this.reservado += aReservar;
 		}else{
 			throw new EstoqueIndisponivelException();
 		}
 	}
 
-	public BigInteger disponivel() {
-		BigInteger disponivel = quantidade.subtract(reservado);
-		return disponivel.intValue() < 0 ? BigInteger.ZERO : disponivel;
+	public int disponivel() {
+		int disponivel = quantidade - reservado;
+		return disponivel < 0 ? 0 : disponivel;
 	}
 
-	public void reduzirEm(BigInteger one) {
-		this.quantidade = this.quantidade.subtract(one);
-		this.reservado = this.reservado.subtract(one);
+	public void reduzirEm(int one) {
+		this.quantidade = this.quantidade - one ;
+		this.reservado = this.reservado - one;
 	}
 }

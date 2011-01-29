@@ -206,7 +206,12 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.6.10</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>br.com.artificia</groupId>
+			<artifactId>artificia-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 	</dependencies>
 	<build>

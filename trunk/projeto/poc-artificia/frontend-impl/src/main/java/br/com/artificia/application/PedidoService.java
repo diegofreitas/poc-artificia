@@ -42,7 +42,7 @@ public class PedidoService implements IPedidoService{
 		Pedido pedido = pedidoRepository.findById(idPedido);
 		Produto produto = produtoRepository.findById(idPedido);
 		
-		pedido.adiciconarProdutos(produto, BigInteger.valueOf(quantidade));
+		pedido.adiciconarProdutos(produto, quantidade);
 		
 		pedidoRepository.update(pedido);
 		produtoRepository.update(produto);

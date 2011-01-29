@@ -22,12 +22,12 @@ public class ProdutoTest {
 		.pontos(10).build();
 		
 		//quando
-		produto.reduzirEstoqueEm(BigInteger.valueOf(quantidadeAReduzir));
+		produto.reduzirEstoqueEm(quantidadeAReduzir);
 		
 		//then
 		Estoque estoque = (Estoque) getField(produto, "estoque");
-		assertEquals(BigInteger.valueOf(90),getField(estoque,"quantidade"));
-		assertEquals(BigInteger.valueOf(0),getField(estoque,"reservado"));
+		assertEquals(90,getField(estoque,"quantidade"));
+		assertEquals(0,getField(estoque,"reservado"));
 	}
 
 }

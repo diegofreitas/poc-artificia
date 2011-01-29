@@ -5,6 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import br.com.artificia.domain.model.estoque.EstoqueTest;
+import br.com.artificia.domain.model.estoque.ProdutoTest;
 import br.com.artificia.domain.model.pedido.ItemTest;
 import br.com.artificia.domain.model.pedido.PedidoTest;
 import br.com.artificia.infrastructure.persistence.ConsultoraRepositoryTest;
@@ -16,8 +17,8 @@ import br.com.artificia.infrastructure.persistence.ConsultoraRepositoryTest;
 	PedidoTest.class,
 	EstoqueTest.class,
 	ItemTest.class,
-	EstoqueTest.class
-	
+	EstoqueTest.class,
+	ProdutoTest.class
 })
 public class AllTests {
 }
