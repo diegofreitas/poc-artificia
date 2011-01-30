@@ -1,15 +1,15 @@
 package br.com.artificia.application;
 
-import java.math.BigInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.artificia.domain.model.consultora.Consultora;
+import br.com.artificia.domain.model.consultora.IConsultora;
 import br.com.artificia.domain.model.consultora.IConsultoraRepository;
+import br.com.artificia.domain.model.estoque.IProduto;
 import br.com.artificia.domain.model.estoque.IProdutoRepository;
-import br.com.artificia.domain.model.estoque.Produto;
+import br.com.artificia.domain.model.pedido.IPedido;
 import br.com.artificia.domain.model.pedido.IPedidoRepository;
 import br.com.artificia.domain.model.pedido.Pedido;
 
@@ -27,20 +27,20 @@ public class PedidoService implements IPedidoService{
 
 	@Transactional
 	public long iniciarPedido(long idConsultora) {
-		Consultora consultora = consultoraRepository.findById(idConsultora);
-		Pedido pedido = new Pedido.Builder().consultora(consultora).build(); 
+		IConsultora consultora = consultoraRepository.findById(idConsultora);
+		IPedido pedido = new Pedido.Builder().consultora(consultora).build(); 
 		return pedidoRepository.save(pedido);
 	}
 
 	@Transactional(readOnly=true)
-	public Pedido carregarPedido(long idPedido) {
+	public IPedido carregarPedido(long idPedido) {
 		return pedidoRepository.findById(idPedido);
 	}
 
 	@Transactional
 	public void adicionarProduto(long idPedido, int codigoProduto, int quantidade) {
-		Pedido pedido = pedidoRepository.findById(idPedido);
-		Produto produto = produtoRepository.findById(idPedido);
+		IPedido pedido = pedidoRepository.findById(idPedido);
+		IProduto produto = produtoRepository.findById(idPedido);
 		
 		pedido.adiciconarProdutos(produto, quantidade);
 		
@@ -49,8 +49,8 @@ public class PedidoService implements IPedidoService{
 	}
 
 	@Transactional
-	public Pedido finalizarPedido(Long idPedido) {
-		Pedido pedido = pedidoRepository.findById(idPedido);
+	public IPedido finalizarPedido(Long idPedido) {
+		IPedido pedido = pedidoRepository.findById(idPedido);
 		pedido.finalizar();
 		pedidoRepository.update(pedido);
 		return pedido;

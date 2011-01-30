@@ -6,23 +6,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import br.com.artificia.domain.model.estoque.IProduto;
 import br.com.artificia.domain.model.estoque.Produto;
+import br.com.artificia.infrastructure.IOriginator;
 
 @Entity
-class Item {
+class Item implements IOriginator<ItemMemento>{
 
 	@Id
 	@GeneratedValue
 	private long id;
 	private double total;
 	private int quantidade;
-	@ManyToOne(cascade=CascadeType.MERGE)
-	private Produto produto;
+	@ManyToOne(targetEntity=Produto.class,cascade=CascadeType.MERGE)
+	private IProduto produto;
 
 	Item() {
 	}
 
-	public Item(Produto produto, int quantidade) {
+	public Item(IProduto produto, int quantidade) {
 		this.produto = produto;
 		this.quantidade = quantidade;
 		total = produto.preco() * quantidade ;
@@ -36,7 +38,7 @@ class Item {
 		return this.produto.pontos() * this.quantidade;
 	}
 
-	public Produto produto() {
+	public IProduto produto() {
 		return this.produto;
 	}
 

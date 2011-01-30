@@ -6,12 +6,13 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.artificia.application.IPedidoService;
-import br.com.artificia.domain.model.pedido.Pedido;
+import br.com.artificia.domain.model.pedido.PedidoMemento;
+import br.com.artificia.infrastructure.IOriginator;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-public class PedidoAction extends ActionSupport implements SessionAware, ModelDriven{
+public class PedidoAction extends ActionSupport implements SessionAware, ModelDriven<PedidoMemento>{
 	
 	
 	@Autowired
@@ -19,11 +20,11 @@ public class PedidoAction extends ActionSupport implements SessionAware, ModelDr
 	
 	private Map<String, Object> sessionMap;
 
-	private Pedido pedido;
+	private IOriginator<PedidoMemento> pedido;
 	
 	public String execute() {	
-		Object object = this.sessionMap.get("poc-artificia.id_pedido");
-		pedido = pedidoService.carregarPedido((Long)object);
+		Long idPedido = (Long) this.sessionMap.get("poc-artificia.id_pedido");
+		pedido = pedidoService.carregarPedido(idPedido);
 		return SUCCESS;
 	}
 
@@ -31,15 +32,15 @@ public class PedidoAction extends ActionSupport implements SessionAware, ModelDr
 		this.sessionMap = sessionMap;
 	}
 
-	public Pedido getPedido() {
+	public IOriginator<PedidoMemento> getPedido() {
 		return pedido;
 	}
 
-	public Object getModel() {
+	public PedidoMemento getModel() {
 		if(pedido == null){
 			return null;
 		}
-		return pedido.getMemento();
+		return pedido.createMemento();
 	}
 
 }

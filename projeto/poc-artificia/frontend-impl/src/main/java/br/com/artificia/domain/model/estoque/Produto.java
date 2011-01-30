@@ -13,7 +13,7 @@ import br.com.artificia.infrastructure.IBuilder;
 
 @Entity
 @Configurable
-public class Produto {
+public class Produto implements IProduto{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -43,13 +43,13 @@ public class Produto {
 	}
 
 	
-	public static class Builder implements IBuilder<Produto> {
+	public static class Builder implements IBuilder<IProduto> {
 		
 		private double preco = 0;
 		private Estoque estoque = new Estoque(10000,0);
 		private int pontos = 0;
 
-		public Produto build() {
+		public IProduto build() {
 			return new Produto(this);
 		}
 		

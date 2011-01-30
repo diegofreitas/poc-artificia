@@ -1,6 +1,6 @@
 package br.com.artificia.infrastructure.persistence;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import javax.annotation.Resource;
 
@@ -14,9 +14,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.artificia.domain.model.consultora.Consultora;
+import br.com.artificia.domain.model.consultora.IConsultora;
 import br.com.artificia.domain.model.consultora.IConsultoraRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -45,9 +46,9 @@ public class ConsultoraRepositoryTest {
 	
 	@Test
 	public void deveEncontrarConsultoraPreExistentePorId() {
-		 Consultora consultora = this.consultoraRepository.findById(2);
+		 IConsultora consultora = this.consultoraRepository.findById(2);
 		 assertEquals("Consultora cadastrada no dataset nao encontrada",
-				 "CONSULTORA_TESTE",consultora.nome());
+				 "CONSULTORA_TESTE",ReflectionTestUtils.getField(consultora,"nome"));
 	}
 
 }
