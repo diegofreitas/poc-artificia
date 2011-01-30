@@ -4,6 +4,7 @@ O sistema será desenvolvido de forma orientada a objetos  seguindo os principio
 
 = Princípios e Padrões =
 
+* As entidades de negócio que são persistidas não seguem o padrão javabens(getters e setters), pois quebra o princípio de encapsulamento da OO. Somente o próprio objeto sabe o que fazer com seu estado.
 
 
 = Frameworks e Ambiente de desenvolvimento =
