@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.artificia.application.IPedidoService;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
 
 public class AdicaoProdutoAction extends ActionSupport implements SessionAware{
 	

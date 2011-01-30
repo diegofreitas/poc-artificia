@@ -3,7 +3,6 @@ package br.com.artificia.domain.model.pedido;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.util.ReflectionTestUtils.getField;
 
-
 import java.util.Collection;
 
 import javax.annotation.Resource;
@@ -11,7 +10,6 @@ import javax.annotation.Resource;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
-import org.hibernate.cache.ReadWriteCache.Item;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,11 +21,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.artificia.domain.model.consultora.Consultora;
+import br.com.artificia.domain.model.consultora.IConsultora;
 import br.com.artificia.domain.model.estoque.Estoque;
 import br.com.artificia.domain.model.estoque.EstoqueIndisponivelException;
+import br.com.artificia.domain.model.estoque.IProduto;
 import br.com.artificia.domain.model.estoque.IProdutoRepository;
 import br.com.artificia.domain.model.estoque.Produto;
-import br.com.artificia.domain.model.pedido.Pedido.SituacaoPedido;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -78,24 +77,24 @@ public class PedidoTest {
 
 	@Test
 	public void adicionarProduto() {
-		Pedido pedido = pedidoRepository.findById(PEDIDO_SIMPLES);
-		Produto produto = produtoRepository.findById(PRODUTO_CREME_ID);
+		IPedido pedido = pedidoRepository.findById(PEDIDO_SIMPLES);
+		IProduto produto = produtoRepository.findById(PRODUTO_CREME_ID);
 		
 		pedido.adiciconarProdutos(produto, 1);
 		
 		Collection<Item> itens = (Collection<Item>) getField(pedido, "itens");
 
 		assertEquals(1, itens.size());
-		assertEquals(Double.valueOf(10.0), Double.valueOf(pedido.total()));
-		assertEquals( 10, pedido.pontuacao());
+		assertEquals(Double.valueOf(10.0), getField(pedido,"total"));
+		assertEquals( 10, getField(pedido,"pontuacao"));
 	}
 	
 	@Test
 	public void reservarEstoqueAoAdicionarProduto() {
-		Consultora consultora= new Consultora.Builder().pontMaxima(1000).build();
-		Pedido pedido = new Pedido.Builder().consultora(consultora).build();
+		IConsultora consultora= new Consultora.Builder().pontMaxima(1000).build();
+		IPedido pedido = new Pedido.Builder().consultora(consultora).build();
 		
-		Produto produto = new Produto.Builder()
+		IProduto produto = new Produto.Builder()
 				.estoque(new Estoque(100,0))
 				.preco(10.0)
 				.pontos(10).build();
@@ -111,10 +110,10 @@ public class PedidoTest {
 	
 	@Test(expected = EstoqueIndisponivelException.class)
 	public void adicionarProdutoSemEstoque() {
-		Consultora consultora= new Consultora.Builder().pontMaxima(1000).build();
-		Pedido pedido = new Pedido.Builder().consultora(consultora).build();
+		IConsultora consultora= new Consultora.Builder().pontMaxima(1000).build();
+		IPedido pedido = new Pedido.Builder().consultora(consultora).build();
 		
-		Produto produto = new Produto.Builder()
+		IProduto produto = new Produto.Builder()
 				.estoque(new Estoque(0,0))
 				.preco(10.0)
 				.pontos(10).build();
@@ -124,27 +123,27 @@ public class PedidoTest {
 
 	@Test(expected = PontuacaoMaximaExcedidaException.class)
 	public void adicionarProdutoPontuacaoExcedida() {
-		Consultora consultora= new Consultora.Builder().pontMaxima(100).build();
-		Pedido pedido = new Pedido.Builder().consultora(consultora).build();
+		IConsultora consultora= new Consultora.Builder().pontMaxima(100).build();
+		IPedido pedido = new Pedido.Builder().consultora(consultora).build();
 		
-		Produto produto = new Produto.Builder().estoque(new Estoque(100,0)).preco(10.0)
+		IProduto produto = new Produto.Builder().estoque(new Estoque(100,0)).preco(10.0)
 				.pontos(10).build();
 		pedido.adiciconarProdutos(produto, 20);
 	}
 	
 	@Test
 	public void finalizarPedido() {
-		Pedido pedido = pedidoRepository.findById(PEDIDO_SIMPLES);
-		Produto produto = produtoRepository.findById(PRODUTO_CREME_ID);
-		Produto produtoSpy = Mockito.spy(produto);
+		IPedido pedido = pedidoRepository.findById(PEDIDO_SIMPLES);
+		IProduto produto = produtoRepository.findById(PRODUTO_CREME_ID);
+		IProduto produtoSpy = Mockito.spy(produto);
 		
 		pedido.adiciconarProdutos(produtoSpy, 1);
 		
-		assertEquals(SituacaoPedido.INICIADO, getField(pedido, "situacao"));
+		assertEquals(IPedido.SituacaoPedido.INICIADO, getField(pedido, "situacao"));
 		
 		pedido.finalizar();
 
-		assertEquals(SituacaoPedido.FINALIZADO, getField(pedido, "situacao"));
+		assertEquals(IPedido.SituacaoPedido.FINALIZADO, getField(pedido, "situacao"));
 		Mockito.verify(produtoSpy).reduzirEstoqueEm(1);
 	}
 

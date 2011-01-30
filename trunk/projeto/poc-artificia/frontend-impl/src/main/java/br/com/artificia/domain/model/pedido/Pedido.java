@@ -15,20 +15,15 @@ import javax.persistence.OneToMany;
 
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.artificia.domain.model.consultora.Consultora;
-import br.com.artificia.domain.model.estoque.Produto;
+import br.com.artificia.domain.model.consultora.IConsultora;
+import br.com.artificia.domain.model.estoque.IProduto;
 import br.com.artificia.infrastructure.IBuilder;
 
 @Entity
-public class Pedido {
+public class Pedido implements IPedido {
 
-	public enum SituacaoPedido {
-		INICIADO, FINALIZADO
-	}
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private Long id;
@@ -37,9 +32,8 @@ public class Pedido {
 	private double total;
 	private int pontuacao;
 	private SituacaoPedido situacao = SituacaoPedido.INICIADO;
-	
-	@ManyToOne
-	private Consultora consultora;
+	@ManyToOne(targetEntity=Consultora.class)
+	private IConsultora consultora;
 
 	Pedido(){ }
 	
@@ -50,20 +44,11 @@ public class Pedido {
 		this.consultora = builder.consultora;
 	}
 	
-	public int pontuacao() {
-		return this.pontuacao;
-	}
-	
 	public Long id() {
 		return id;
 	}
 
-	public void adiciconarProdutos(Produto produto, int quantidade) {
-		produto.reservarEstoqueEm(quantidade);
-		Item novoItem = new Item(produto, quantidade);
-		this.aumentarPontuacaoEm(novoItem.pontuacao());
-		this.adicionarItem(novoItem);
-	}
+
 
 	private void aumentarPontuacaoEm(int pontos) {
 		if(isPontuacaoExcederCom(pontos)){
@@ -94,7 +79,7 @@ public class Pedido {
 		private Collection<Item> itens = new HashSet<Item>();
 		private double total = 0;
 		private int pontuacao = 0;
-		private Consultora consultora = Consultora.NULL_CONSULTORA;
+		private IConsultora consultora = Consultora.NULL_CONSULTORA;
 
 		public Pedido build() {
 			if(consultora == null || Consultora.NULL_CONSULTORA.equals(consultora)){
@@ -102,26 +87,14 @@ public class Pedido {
 			}
 			return new Pedido(this);
 		}
-
-		/*public Builder itens(Collection<Item> itens) {
-			this.itens = itens;
-			return this;
-		}
-
-		public Builder pontuacao(int pontuacao) {
-			this.pontuacao = BigInteger.valueOf(pontuacao);
-			return this;
-		}*/
 		
-		public Builder consultora(Consultora consultora) {
+		public Builder consultora(IConsultora consultora) {
 			this.consultora  = consultora;
 			return this;
 		}
 
 	}
 
-	
-	@Transactional
 	public void finalizar() {
 		this.situacao = SituacaoPedido.FINALIZADO;	
 		CollectionUtils.forAllDo(this.itens, new Closure() {
@@ -132,7 +105,16 @@ public class Pedido {
 		});
 	}
 
-	public Object getMemento() {
+	@Override
+	public void adiciconarProdutos(IProduto produto, int quantidade) {
+		produto.reservarEstoqueEm(quantidade);
+		Item novoItem = new Item(produto, quantidade);
+		this.aumentarPontuacaoEm(novoItem.pontuacao());
+		this.adicionarItem(novoItem);
+	}
+
+	@Override
+	public PedidoMemento createMemento() {
 		Collection<ItemMemento> itensMemento = new ArrayList<ItemMemento>();
 		for(Item item: this.itens){
 			itensMemento.add(item.createMemento());

@@ -16,7 +16,7 @@ public class ProdutoTest {
 		int quantidadeAReduzir = 10;
 		int quantidadeReservada = 10;
 		
-		Produto produto = new Produto.Builder()
+		IProduto produto = new Produto.Builder()
 		.estoque(new Estoque(quantidadeEmEstoque,quantidadeReservada))
 		.preco(10.0)
 		.pontos(10).build();

@@ -8,9 +8,9 @@ import javax.persistence.Id;
 import br.com.artificia.infrastructure.IBuilder;
 
 @Entity
-public class Consultora {
+public class Consultora implements IConsultora {
 	
-	public static final Consultora NULL_CONSULTORA = new Consultora.Builder().build();
+	public static final IConsultora NULL_CONSULTORA = new Consultora.Builder().build();
 	
 	@Id
 	@GeneratedValue
@@ -30,16 +30,12 @@ public class Consultora {
 	public int pontuacaoMaxima() {
 		return pontuacaoMaxima;
 	}
-
-	public String nome(){
-		return nome;
-	}
 	
-	public static class Builder implements IBuilder<Consultora>{
+	public static class Builder implements IBuilder<IConsultora>{
 		
 		private int pontuacaoMaxima= 0;
 		
-		public Consultora build() {
+		public IConsultora build() {
 			return new Consultora(this);
 		}
 		
