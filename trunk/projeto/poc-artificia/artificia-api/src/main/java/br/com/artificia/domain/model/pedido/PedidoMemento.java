@@ -3,7 +3,7 @@ package br.com.artificia.domain.model.pedido;
 import java.util.Collection;
 import java.util.Collections;
 
-import br.com.artificia.domain.model.pedido.IPedido.SituacaoPedido;
+import br.com.artificia.domain.model.pedido.SituacaoPedido;
 
 public class PedidoMemento {
 

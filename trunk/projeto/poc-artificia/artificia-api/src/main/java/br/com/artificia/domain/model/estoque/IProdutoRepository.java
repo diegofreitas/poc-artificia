@@ -1,9 +1,9 @@
 package br.com.artificia.domain.model.estoque;
 
 
-public interface IProdutoRepository {
+public interface IProdutoRepository<T> {
 
-	IProduto findById(long produtoId);
+	T findById(long produtoId);
 
-	void update(IProduto produto);
+	void update(T produto);
 }
