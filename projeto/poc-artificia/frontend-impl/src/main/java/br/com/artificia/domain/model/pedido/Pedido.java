@@ -17,12 +17,12 @@ import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
 
 import br.com.artificia.domain.model.consultora.Consultora;
-import br.com.artificia.domain.model.consultora.IConsultora;
-import br.com.artificia.domain.model.estoque.IProduto;
+import br.com.artificia.domain.model.estoque.Produto;
 import br.com.artificia.infrastructure.IBuilder;
+import br.com.artificia.infrastructure.IOriginator;
 
 @Entity
-public class Pedido implements IPedido {
+public class Pedido implements IOriginator<PedidoMemento>{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
@@ -32,8 +32,8 @@ public class Pedido implements IPedido {
 	private double total;
 	private int pontuacao;
 	private SituacaoPedido situacao = SituacaoPedido.INICIADO;
-	@ManyToOne(targetEntity=Consultora.class)
-	private IConsultora consultora;
+	@ManyToOne
+	private Consultora consultora;
 
 	Pedido(){ }
 	
@@ -79,16 +79,16 @@ public class Pedido implements IPedido {
 		private Collection<Item> itens = new HashSet<Item>();
 		private double total = 0;
 		private int pontuacao = 0;
-		private IConsultora consultora = Consultora.NULL_CONSULTORA;
+		private Consultora consultora ;
 
 		public Pedido build() {
-			if(consultora == null || Consultora.NULL_CONSULTORA.equals(consultora)){
+			if(consultora == null){
 				throw new IllegalStateException();
 			}
 			return new Pedido(this);
 		}
 		
-		public Builder consultora(IConsultora consultora) {
+		public Builder consultora(Consultora consultora) {
 			this.consultora  = consultora;
 			return this;
 		}
@@ -105,8 +105,7 @@ public class Pedido implements IPedido {
 		});
 	}
 
-	@Override
-	public void adiciconarProdutos(IProduto produto, int quantidade) {
+	public void adiciconarProdutos(Produto produto, int quantidade) {
 		produto.reservarEstoqueEm(quantidade);
 		Item novoItem = new Item(produto, quantidade);
 		this.aumentarPontuacaoEm(novoItem.pontuacao());

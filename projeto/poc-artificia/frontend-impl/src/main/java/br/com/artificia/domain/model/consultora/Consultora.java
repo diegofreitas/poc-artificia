@@ -5,12 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import br.com.artificia.infrastructure.IBuilder;
-
 @Entity
-public class Consultora implements IConsultora {
-	
-	public static final IConsultora NULL_CONSULTORA = new Consultora.Builder().build();
+public class Consultora  {
 	
 	@Id
 	@GeneratedValue
@@ -18,12 +14,14 @@ public class Consultora implements IConsultora {
 	private int pontuacaoMaxima;
 	private String nome;
 
-	public Consultora(Builder builder) {
-		this.pontuacaoMaxima = builder.pontuacaoMaxima;
+
+	public Consultora(long id, int pontuacaoMaxima, String nome) {
+		this.id = id;
+		this.pontuacaoMaxima = pontuacaoMaxima;
+		this.nome = nome;
 	}
 
 	Consultora() {
-		// TODO Auto-generated constructor stub
 	
 	}
 
@@ -31,18 +29,4 @@ public class Consultora implements IConsultora {
 		return pontuacaoMaxima;
 	}
 	
-	public static class Builder implements IBuilder<IConsultora>{
-		
-		private int pontuacaoMaxima= 0;
-		
-		public IConsultora build() {
-			return new Consultora(this);
-		}
-		
-		public Builder pontMaxima(int max){
-			this.pontuacaoMaxima =  max;
-			return this;
-		}
-		
-	}
 }

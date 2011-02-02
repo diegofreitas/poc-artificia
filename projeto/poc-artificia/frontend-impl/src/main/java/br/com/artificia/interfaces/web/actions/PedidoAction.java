@@ -6,6 +6,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.artificia.application.IPedidoService;
+import br.com.artificia.domain.model.pedido.Pedido;
 import br.com.artificia.domain.model.pedido.PedidoMemento;
 import br.com.artificia.infrastructure.IOriginator;
 
@@ -16,7 +17,7 @@ public class PedidoAction extends ActionSupport implements SessionAware, ModelDr
 	
 	
 	@Autowired
-	private IPedidoService pedidoService ;
+	private IPedidoService<Pedido> pedidoService ;
 	
 	private Map<String, Object> sessionMap;
 

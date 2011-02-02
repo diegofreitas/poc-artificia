@@ -8,12 +8,10 @@ import javax.persistence.Id;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
-import br.com.artificia.infrastructure.IBuilder;
-
 
 @Entity
 @Configurable
-public class Produto implements IProduto{
+public class Produto {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -31,47 +29,10 @@ public class Produto implements IProduto{
 	
 	Produto(){}
 
-	public Produto(Builder builder) {
-		this.preco = builder.preco;
-		this.estoque = builder.estoque;
-		this.pontos = builder.pontos;
-	}
-	
-
 	public double preco() {
 		return preco;
 	}
-
 	
-	public static class Builder implements IBuilder<IProduto> {
-		
-		private double preco = 0;
-		private Estoque estoque = new Estoque(10000,0);
-		private int pontos = 0;
-
-		public IProduto build() {
-			return new Produto(this);
-		}
-		
-		public Builder preco(double preco) {
-			this.preco =  preco ;
-			return this;
-		}
-
-		public Builder estoque(Estoque estoque) {
-			this.estoque =estoque;
-			return this;
-		}
-
-		public Builder pontos(int pontos) {
-			this.pontos =  pontos ;
-			return this;
-		}
-
-		
-
-	}
-
 	public int pontos() {
 		return this.pontos;
 	}
@@ -86,6 +47,15 @@ public class Produto implements IProduto{
 
 	public String descricao() {
 		return this.descricao;
-	}	
+	}
+	
+	public static Produto fabricaProduto(double preco, int pontos, String descricao, int estoque, int reservada){
+		Produto produto = new Produto();
+		produto.preco = preco;
+		produto.descricao= descricao;
+		produto.estoque = new Estoque(estoque,reservada);
+		produto.pontos = pontos;
+		return produto;
+	}
 
 }

@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.artificia.domain.model.consultora.IConsultora;
+import br.com.artificia.domain.model.consultora.Consultora;
 import br.com.artificia.domain.model.consultora.IConsultoraRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,7 +29,7 @@ public class ConsultoraRepositoryTest {
 	private IDatabaseTester databaseTester;
 
 	@Autowired
-	private IConsultoraRepository consultoraRepository;
+	private IConsultoraRepository<Consultora> consultoraRepository;
 
 	@Before
 	public void setUp() throws Exception {
@@ -46,7 +46,7 @@ public class ConsultoraRepositoryTest {
 	
 	@Test
 	public void deveEncontrarConsultoraPreExistentePorId() {
-		 IConsultora consultora = this.consultoraRepository.findById(2);
+		 Consultora consultora = this.consultoraRepository.findById(2);
 		 assertEquals("Consultora cadastrada no dataset nao encontrada",
 				 "CONSULTORA_TESTE",ReflectionTestUtils.getField(consultora,"nome"));
 	}

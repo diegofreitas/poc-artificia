@@ -1,9 +1,8 @@
 package br.com.artificia.domain.model.consultora;
 
-import br.com.artificia.domain.model.consultora.IConsultora;
 
-public interface IConsultoraRepository {
+public interface IConsultoraRepository<C> {
 
-	IConsultora findById(long idConsultora);
+	C findById(long idConsultora);
 	
 }

@@ -1,11 +1,11 @@
 package br.com.artificia.domain.model.pedido;
 
-public interface IPedidoRepository {
+public interface IPedidoRepository<P> {
 
-	long save(IPedido pedido);
+	long save(P pedido);
 
-	IPedido findById(long idPedido);
+	P findById(long idPedido);
 
-	void update(IPedido pedido);
+	void update(P pedido);
 
 }

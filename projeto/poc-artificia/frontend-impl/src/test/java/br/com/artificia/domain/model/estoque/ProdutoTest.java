@@ -15,11 +15,7 @@ public class ProdutoTest {
 		int quantidadeEmEstoque = 100;
 		int quantidadeAReduzir = 10;
 		int quantidadeReservada = 10;
-		
-		IProduto produto = new Produto.Builder()
-		.estoque(new Estoque(quantidadeEmEstoque,quantidadeReservada))
-		.preco(10.0)
-		.pontos(10).build();
+		Produto produto = Produto.fabricaProduto(10.0, 10, "Teste", quantidadeEmEstoque,quantidadeReservada);
 		
 		//quando
 		produto.reduzirEstoqueEm(quantidadeAReduzir);
