@@ -11,7 +11,7 @@ import br.com.artificia.domain.model.pedido.PedidoTest;
 import br.com.artificia.infrastructure.persistence.ConsultoraRepositoryTest;
 
 
-@RunWith(Suite.class)
+/*@RunWith(Suite.class)
 @SuiteClasses({
 	ConsultoraRepositoryTest.class,
 	PedidoTest.class,
@@ -19,6 +19,6 @@ import br.com.artificia.infrastructure.persistence.ConsultoraRepositoryTest;
 	ItemTest.class,
 	EstoqueTest.class,
 	ProdutoTest.class
-})
+})*/
 public class AllTests {
 }
