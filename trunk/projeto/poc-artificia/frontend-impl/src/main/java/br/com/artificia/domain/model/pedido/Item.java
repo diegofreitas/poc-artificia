@@ -9,7 +9,7 @@ import br.com.artificia.domain.model.estoque.Produto;
 import br.com.artificia.infrastructure.IOriginator;
 
 @Entity
-class Item implements IOriginator<ItemMemento>{
+class Item implements IOriginator<ItemDTO>{
 
 	@Id
 	@GeneratedValue
@@ -44,8 +44,8 @@ class Item implements IOriginator<ItemMemento>{
 		return quantidade;
 	}
 	
-	public ItemMemento createMemento(){
-		return new ItemMemento(produto.descricao(),this.quantidade,this.pontuacao(),this.total);
+	public ItemDTO createMemento(){
+		return new ItemDTO(produto.descricao(),this.quantidade,this.pontuacao(),this.total);
 	}
 
 }

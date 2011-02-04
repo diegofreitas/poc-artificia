@@ -1,24 +1,28 @@
-package br.com.artificia.domain.model.pedido;
+package br.com.artificia.interfaces.facade.dto;
 
 import java.util.Collection;
 import java.util.Collections;
 
+import br.com.artificia.domain.model.pedido.ItemDTO;
 import br.com.artificia.domain.model.pedido.SituacaoPedido;
 
-public class PedidoMemento {
+public class PedidoDTO {
 
 	private long id;
 	private double total;
 	private int pontuacao;
-	private Collection<ItemMemento> itens = Collections.emptyList();
+	private Collection<ItemDTO> itens = Collections.emptyList();
 	private SituacaoPedido situacao; 
 
-	public PedidoMemento(long id, double total, int pontuacao, Collection<ItemMemento> itensMemento, SituacaoPedido situacao) {
+	public PedidoDTO(long id, double total, int pontuacao, Collection<ItemDTO> itensMemento, SituacaoPedido situacao) {
 		this.id = id;
 		this.total = total;
 		this.pontuacao = pontuacao;
 		this.itens = itensMemento;
 		this.situacao = situacao;
+	}
+	
+	public PedidoDTO() {
 	}
 
 	public double getTotal() {
@@ -33,7 +37,7 @@ public class PedidoMemento {
 		return id;
 	}
 
-	public Collection<ItemMemento> getItens() {
+	public Collection<ItemDTO> getItens() {
 		return itens;
 	}
 

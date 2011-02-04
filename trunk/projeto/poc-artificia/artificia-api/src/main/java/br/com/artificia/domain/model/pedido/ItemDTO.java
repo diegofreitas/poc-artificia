@@ -1,6 +1,6 @@
 package br.com.artificia.domain.model.pedido;
 
-public class ItemMemento {
+public class ItemDTO {
 
 	private String descricaoProduto;
 	private int quantidade;
@@ -9,7 +9,7 @@ public class ItemMemento {
 	
 
 
-	public ItemMemento(String descricaoProduto, int quantidade, int pontuacao,
+	public ItemDTO(String descricaoProduto, int quantidade, int pontuacao,
 			double total) {
 		this.descricaoProduto = descricaoProduto;
 		this.quantidade = quantidade;
