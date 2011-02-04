@@ -22,7 +22,7 @@ import br.com.artificia.infrastructure.IBuilder;
 import br.com.artificia.infrastructure.IOriginator;
 
 @Entity
-public class Pedido implements IOriginator<PedidoMemento>{
+public class Pedido{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
@@ -112,9 +112,9 @@ public class Pedido implements IOriginator<PedidoMemento>{
 		this.adicionarItem(novoItem);
 	}
 
-	@Override
+	/*@Override
 	public PedidoMemento createMemento() {
-		Collection<ItemMemento> itensMemento = new ArrayList<ItemMemento>();
+		Collection<ItemDTO> itensMemento = new ArrayList<ItemDTO>();
 		for(Item item: this.itens){
 			itensMemento.add(item.createMemento());
 		}
@@ -127,6 +127,6 @@ public class Pedido implements IOriginator<PedidoMemento>{
 		);
 
 		return memento;
-	}
+	}*/
 
 }
