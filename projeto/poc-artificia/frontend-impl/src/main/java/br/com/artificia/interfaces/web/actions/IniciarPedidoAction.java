@@ -7,7 +7,7 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.artificia.application.IPedidoService;
+import br.com.artificia.interfaces.facade.IPedidoServiceFacade;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -15,7 +15,7 @@ public class IniciarPedidoAction extends ActionSupport implements SessionAware{
 	
 	
 	@Autowired
-	private IPedidoService pedidoService ;
+	private IPedidoServiceFacade pedidoServiceFacade;
 	
 	private Map<String, Object> sessionMap;
 	
@@ -23,7 +23,7 @@ public class IniciarPedidoAction extends ActionSupport implements SessionAware{
 		results={@Result(type="redirect",location="pedido.action")}
 	)
 	public String execute() {	
-		this.sessionMap.put("poc-artificia.id_pedido", pedidoService.iniciarPedido(0));
+		this.sessionMap.put(WebConstants.ID_PEDIDO_SESSION.toString(), pedidoServiceFacade.iniciarPedido(0));
 		return SUCCESS;
 	}
 
